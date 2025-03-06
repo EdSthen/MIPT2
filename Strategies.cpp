@@ -44,6 +44,7 @@ void strategyB(int arr[], int index) {
 void strategyC(int arr[], int counts[], int index) {
     if (index > 0 && counts[index] > counts[index - 1]) {
         std::swap(arr[index], arr[index - 1]);
+        std::swap(counts[index], counts[index - 1]);
     }
 }
 
@@ -63,9 +64,10 @@ int main() {
 
     auto begin = std::chrono::steady_clock::now();
     for (unsigned cnt0 = 10; cnt0 != 0; --cnt0) {
-        for (unsigned cnt = 10000; cnt != 0; --cnt) {
-            int target = ((std::rand() % n) > n/2)*(std::rand() % n) + ((std::rand() % n) <= n/2)*(80); // Определение искомого
-            int index = linear(arr, n, target);
+        for (unsigned cnt = 100000; cnt != 0; --cnt) {
+            int target = (std::rand() % n);
+            //int target = ((std::rand() % n) > n/2)*(std::rand() % n) + ((std::rand() % n) <= n/2)*(80); // Определение искомого
+            int index = bin(arr, n, target);
             if (index != -1) {
                  counts[index]++;
                 // strategyA(arr, n, index);
@@ -77,7 +79,7 @@ int main() {
     auto end = std::chrono::steady_clock::now();
     auto time_span = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
     sum += time_span.count();
-    std::cout << "Итог: " << sum / 100000 << std::endl;
+    std::cout << "Итог: " << sum / 1000000 << std::endl;
 
     delete[] arr;
     delete[] counts;
